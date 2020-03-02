@@ -14,7 +14,7 @@
             </div>
             <div class="form-group">
                 <label for="subject">Subject</label>
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Enter subject" value="{{ $subject }}" value="{{ old('subject') }}">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Enter subject" value="{{ $subject ?? old('subject') }}">
             </div>
             <div class="form-group">
                 <label for="message">Message</label>

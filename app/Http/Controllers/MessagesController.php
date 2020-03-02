@@ -18,7 +18,7 @@ class MessagesController extends Controller
 
     public function index() {
 
-        $messages = Message::with('userFrom')->where('user_id_to', Auth::id())->NotDeleted()->orderBy('created_at', 'desc')->get();
+        $messages = Message::with('userFrom')->where('user_id_to', Auth::id())->NotDeleted()->orderBy('created_at', 'desc')->paginate(10);
 
         return view('home')->with('messages', $messages);
 
@@ -44,10 +44,7 @@ class MessagesController extends Controller
 
     public function send(Request $request) {
 
-        $this->validate ($request, [
-            'subject' => 'required',
-            'message' => 'required|max:255'
-        ]);
+        $this->validatedData();
 
         $message = new Message();
 
@@ -129,6 +126,15 @@ class MessagesController extends Controller
         $message->save();
 
         return redirect()->to('home')->with('status', 'Message returned to sent box successfully.');
+    }
+
+    protected function validatedData() {
+
+        return request()->validate([
+            'subject' => 'required',
+            'message' => 'required|max:255'
+        ]);
+
     }
 
 }
